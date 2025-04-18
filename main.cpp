@@ -120,7 +120,7 @@ void removeStudent(int studentID) {
         //}
     // insert dynamic array of the structure type Student. use # of students in the file.
         //struct Student() {
-        std::fstream file("students.dat", std::ios::in | std::ios::out);
+        std::fstream file("student.dat", std::ios::in | std::ios::out);
     /* In a loop, read one line of the file at a time and store appropriate data in the dynamic array.
   - While reading check if the student ID being read from the file matches the student ID of the student to be removed.
  - If you find match, use a Boolean flag to store that you have found a match.
@@ -171,7 +171,7 @@ format:
     // If the Boolean is false i.e. no match is found, display an appropriate message for the use
     //           std::cout << " No match has been found." << endl;   
     
-    std::fstream file("students.dat");
+    std::fstream file("student.dat");
     file.close();
 }
 void exportResults() {
