@@ -1,22 +1,39 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cerrno>
+#include <sstream>
 
 extern int getNumber();
 
 constexpr int NUM_TESTS = 5;
-enum MenuChoice {
+enum MenuChoice : int {
     Add = 1, Remove, Display, Search, Results, Quit};
 
-template <typename T>
-T getInput(char const* msg) {
-    T out;
+std::string getString(std::string const& msg) {
     std::cout << msg;
-    if constexpr (std::is_same<T, std::string>::value)
-        std::getline(std::cin, out);
-    else
-        std::cin >> out;
-    return out;
+    std::string str;
+    std::getline(std::cin, str);
+    return str;
+}
+
+int getNumber(std::string const& msg, char const* err = "") {
+    std::string str = getString(msg);
+
+    if (int num = std::strtol(str.c_str(), nullptr, 10); errno == 0) {
+        return num;
+    } else {
+        std::cout << err << std::endl;
+        return getNumber(msg, err);
+    }
+}
+
+template <typename ...Args>
+std::string combine(Args... args) {
+    std::stringstream out;
+
+    (out << ... << args);
+    return out.str();
 }
 
 struct Student {
@@ -61,9 +78,6 @@ struct Student {
     ~Student() { delete[] testScores; }
 };
 
-
-
-
 std::ostream& operator<<(std::ostream& stream, Student const& student) {
     stream.fill(' ');
 
@@ -78,28 +92,29 @@ std::ostream& operator<<(std::ostream& stream, Student const& student) {
 }
 
 void addStudent() {
-    std::string last = getInput<std::string>("Enter last name of the student:");
-    std::string first = getInput<std::string>("Enter first name of the student:");
-    int studentID = getInput<int>("Enter student ID:");
-    int numTests = getInput<int>("How many tests did this student take?");
+    std::string last = getString("Enter last name of the student:");
+    std::string first = getString("Enter first name of the student:");
+    int studentID = getNumber("Enter student ID:");
+    int numTests = getNumber("How many tests did this student take?");
 
     Student student(numTests);
     student.name = first + " " + last;
     student.studentID = studentID;
 
     for (int i = 0; i < numTests; ++i) {
-        int testN = getInput<int>((std::string("Enter score #") + std::to_string(i + 1) + ":").c_str());
+        int testN = getNumber(combine("Enter score #", i + 1, ":"));
         student.testScores[i] = testN;
         student.average += testN / (double)numTests;
     }
 
     // write to file
     std::fstream file("student.dat", std::ios::app);
+    file << std::endl;
 
     std::string nametmp = student.name;
     size_t pos = nametmp.find_last_of(' ');
-    file << (nametmp.c_str() + pos) << ',';
-    nametmp[pos] = '\0';
+    file << (nametmp.c_str() + pos + 1) << ',';
+    nametmp.resize(pos);
     file << nametmp << ',';
 
     file << student.studentID << ',';
@@ -109,7 +124,6 @@ void addStudent() {
         file << student.testScores[i] << ',';
     }
 
-    file << std::endl;
     file.close();
 }
 
@@ -183,8 +197,41 @@ int findMinimum(int arr[], int size) {
     file.close();
 }
 
-int main() {
-    display();
+constexpr char menu[] = R"(
+1. Add
+2. Remove
+3. Display
+4. Search
+5. Results
+6. Quit
+Enter choice:)";
 
-    return 0;
+constexpr char error[] = "Incorrect choice. Please enter again.";
+
+int main() {
+    for (;;) {
+        switch ((MenuChoice)getNumber(menu + 1, error)) {
+        case Add:
+            addStudent();
+            break;
+        case Remove:
+            removeStudent(getNumber("Enter ID of student to remove:"));
+            break;
+        case Display:
+            display();
+            break;
+        case Search:
+            search(getNumber("Enter ID of student to search:"));
+            break;
+        case Results:
+            exportResults();
+            break;
+        case Quit:
+            std::cout << "Bye!!!" << std::endl;
+            return 0;
+        default:
+            std::cout << error << std::endl;
+            break;
+        }
+    }
 }
