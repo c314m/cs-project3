@@ -6,13 +6,7 @@ extern int getNumber();
 
 constexpr int NUM_TESTS = 5;
 enum MenuChoice {
-    Add = 1,
-    Remove,
-    Display,
-    Search,
-    Results,
-    Quit
-};
+    Add = 1, Remove, Display, Search, Results, Quit};
 
 template <typename T>
 T getInput(char const* msg) {
@@ -102,14 +96,43 @@ void addStudent() {
 }
 
 void removeStudent(int studentID) {
-    std::fstream file("students.dat", std::ios::in | std::ios::out);
-    file.close();
+      // Call getNumber to get current number of students in data file
+        getNumber(){
+            
+        }
+    // insert dynamic array of the structure type Student. use # of students in the file.
+        struct Student() {
+        std::fstream file("students.dat", std::ios::in | std::ios::out);
+    /* In a loop, read one line of the file at a time and store appropriate data in the dynamic array.
+  - While reading check if the student ID being read from the file matches the student ID of the student to be removed.
+ - If you find match, use a Boolean flag to store that you have found a match.
+ - Copy the entire file to your dynamic array whether or not you find a match.
+        */
+       file.close();
 }
 void display() {
     std::fstream file("students.dat", std::ios::in);
     file.close();
 }
 void search(int studentID) {
+    // Declare a pointer of type Student. 
+    //  using a loop, read each line of the file and store the appropriate data into the appropriate members of the structure pointer.
+    
+    /* Check if the student ID being read from the file matches the student ID to search. If there
+is a match
+*/
+  //  -  Set a Boolean flag to true to indicate match has been found.
+        bool 
+    /* - Display the data corresponding data of the matched student using the following
+format:
+         - Allocate 30 spaces for the entire name
+         - Allocate 15 spaces for the student ID
+        - Allocate 5 spaces each for the test score
+        - You don’t need to display the number of tests
+*/
+    // If the Boolean is false i.e. no match is found, display an appropriate message for the use
+               std::cout << " No match has been found." << endl;   
+    
     std::fstream file("students.dat");
     file.close();
 }
