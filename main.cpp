@@ -17,14 +17,14 @@ std::string getString(std::string const& msg) {
     return str;
 }
 
-int getNumber(std::string const& msg, char const* err = "") {
+int getInt(std::string const& msg, char const* err = "") {
     std::string str = getString(msg);
 
     if (int num = std::strtol(str.c_str(), nullptr, 10); errno == 0) {
         return num;
     } else {
         std::cout << err << std::endl;
-        return getNumber(msg, err);
+        return getInt(msg, err);
     }
 }
 
@@ -94,15 +94,15 @@ std::ostream& operator<<(std::ostream& stream, Student const& student) {
 void addStudent() {
     std::string last = getString("Enter last name of the student:");
     std::string first = getString("Enter first name of the student:");
-    int studentID = getNumber("Enter student ID:");
-    int numTests = getNumber("How many tests did this student take?");
+    int studentID = getInt("Enter student ID:");
+    int numTests = getInt("How many tests did this student take?");
 
     Student student(numTests);
     student.name = first + " " + last;
     student.studentID = studentID;
 
     for (int i = 0; i < numTests; ++i) {
-        int testN = getNumber(combine("Enter score #", i + 1, ":"));
+        int testN = getInt(combine("Enter score #", i + 1, ":"));
         student.testScores[i] = testN;
         student.average += testN / (double)numTests;
     }
@@ -210,18 +210,18 @@ constexpr char error[] = "Incorrect choice. Please enter again.";
 
 int main() {
     for (;;) {
-        switch ((MenuChoice)getNumber(menu + 1, error)) {
+        switch ((MenuChoice)getInt(menu + 1, error)) {
         case Add:
             addStudent();
             break;
         case Remove:
-            removeStudent(getNumber("Enter ID of student to remove:"));
+            removeStudent(getInt("Enter ID of student to remove:"));
             break;
         case Display:
             display();
             break;
         case Search:
-            search(getNumber("Enter ID of student to search:"));
+            search(getInt("Enter ID of student to search:"));
             break;
         case Results:
             exportResults();
