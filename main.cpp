@@ -164,6 +164,7 @@ void display() {
         std::cout << Student(line) << std::endl;
     */
 
+    delete[] students;
     file.close();
 }
 void search(int studentID) {
