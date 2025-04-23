@@ -190,6 +190,18 @@ format:
 }
 void exportResults() {
     std::fstream file("student.dat");
+    studentNum = getNumber();
+    Student* = students = new Student(studentNum);
+//loop//
+    for (int i = 0; i < studentNum ++i){
+        std::getline(file, line);
+        students[i].init(line);
+    }
+    for (int i = 0, i < studentNum ++i){
+        minScore = findMinimum();
+        //Step 8
+    }
+    
     file.close();
 }
 int findMinimum(int arr[], int size) {
@@ -205,6 +217,7 @@ constexpr char menu[] = R"(
 5. Results
 6. Quit
 Enter choice:)";
+   
 
 constexpr char error[] = "Incorrect choice. Please enter again.";
 
