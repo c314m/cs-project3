@@ -197,12 +197,18 @@ void exportResults() {
     for (int i = 0; i < studentNum ++i){
         std::getline(file, line);
         students[i].init(line);
+        file << studentID;
+        //get back to student ID
     }
     for (int i = 0, i < studentNum ++i){
         minScore = findMinimum();
         //Step 8
         std::accumulate(students*[i].testscores, students[i].testScores + students[i].numTestsTaken);
+        
     }
+std::fstream output(student.dat);
+
+
     
     file.close();
 }
