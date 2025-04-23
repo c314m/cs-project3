@@ -201,12 +201,19 @@ void exportResults() {
     for (int i = 0, i < studentNum ++i){
         minScore = findMinimum();
         //Step 8
+        std::accumulate(students*[i].testscores, students[i].testScores + students[i].numTestsTaken);
     }
     
     file.close();
 }
 int findMinimum(int arr[], int size) {
     std::fstream file("student.dat");
+    
+    if(students > 5){
+        //work in progress bruh
+        minScore = 0;
+    }
+    
     file.close();
 }
 
