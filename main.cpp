@@ -215,10 +215,18 @@ std::fstream output(student.dat);
 int findMinimum(int arr[], int size) {
     std::fstream file("student.dat");
     
-    if(students > 5){
+    if(student > 5){
         //work in progress bruh
         minScore = 0;
     }
+    else if (student == 5){
+int minScr = arr[0];
+        for (int i = 0; i < size; ++i){
+            if (arr[i] < minScore {
+                mineScore = arr[i];
+                }
+    }
+}
     
     file.close();
 }
