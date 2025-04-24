@@ -128,13 +128,41 @@ void addStudent() {
 }
 
 void removeStudent(int studentID) {
-      // Call getNumber to get current number of students in data file
-        //getNumber(){
-            
-        //}
-    // insert dynamic array of the structure type Student. use # of students in the file.
-        //struct Student() {
-        std::fstream file("student.dat", std::ios::in | std::ios::out);
+     int studentNum = getNumber();
+     Student* students = new Student[studentNum];
+    
+    std::fstream file("student.dat", std:ios::in);
+      if (!file_is.open) { 
+          std:cout << "Error opening file." << endl;
+          return 1;
+      }
+      std::string line;
+      int actualCount = 0;
+      bool found = false;
+
+      while (std::getline(file, line)){
+          Student s;
+          s.init(line);
+          if (s.studentID != studentID){
+              students[actualCount++] = s;
+          }
+          else {
+              found = true;
+          }
+      }
+     file.close();
+
+     if (!found){
+         std:cout << "Student ID " << studentID << " not found." << endl;
+         delete[] students;
+         return 0;
+     }
+  
+    std::fstream file("student.dat", std::ios::in | std::ios::out);
+    for (int i = 0; i < actualCount; ++i){
+        std::string name = students[i].name;
+        size_t pos = name.find_last_of(' ');
+        file << (name.c_str() + pos +1) << ',';
     /* In a loop, read one line of the file at a time and store appropriate data in the dynamic array.
   - While reading check if the student ID being read from the file matches the student ID of the student to be removed.
  - If you find match, use a Boolean flag to store that you have found a match.
