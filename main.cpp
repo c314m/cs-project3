@@ -3,6 +3,7 @@
 #include <string>
 #include <cerrno>
 #include <sstream>
+using namespace std;
 
 extern int getNumber();
 
@@ -131,8 +132,8 @@ void removeStudent(int studentID) {
      int studentNum = getNumber();
      Student* students = new Student[studentNum];
     
-    std::fstream file("student.dat", std:ios::in);
-      if (!file_is.open) { 
+    std::fstream file("student.dat", std::ios::in);
+      if (!file_is.open()) { 
           std:cout << "Error opening file." << endl;
           return 1;
       }
@@ -150,10 +151,10 @@ void removeStudent(int studentID) {
               found = true;
           }
       }
-     file.close();
+     file.close()
 
      if (!found){
-         std:cout << "Student ID " << studentID << " not found." << endl;
+         std::cout << "Student ID " << studentID << " not found." << endl;
          delete[] students;
          return 0;
      }
