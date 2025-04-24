@@ -162,13 +162,21 @@ void removeStudent(int studentID) {
     for (int i = 0; i < actualCount; ++i){
         std::string name = students[i].name;
         size_t pos = name.find_last_of(' ');
-        file << (name.c_str() + pos +1) << ',';
-    /* In a loop, read one line of the file at a time and store appropriate data in the dynamic array.
-  - While reading check if the student ID being read from the file matches the student ID of the student to be removed.
- - If you find match, use a Boolean flag to store that you have found a match.
- - Copy the entire file to your dynamic array whether or not you find a match.
-        */
-       file.close();
+        file << (name.c_str() + pos +1) << ",";
+        name.resize(pos);
+        file << name << ",";
+        file << students[i].studentID << ",";
+        file << students[i].numTestsTaken << ",";
+
+        for (int j = 0; j < students[i].numTestsTaken; ++j){
+            file << students[i].testScores[j];
+            if (j < students[i].numTestsTaken - 1) file << ",";
+        }
+        if (actualCount - 1) file << "\n";
+    }
+    file.close();
+    delete[] students;
+    std::cout << "Student ID " << studentID << " removed successfully." << endl;
 }
 void display() {
     std::fstream file("student.dat", std::ios::in);
