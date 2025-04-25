@@ -178,7 +178,7 @@ void removeStudent(int studentID) {
     }
     output.close();
     delete[] students;
-    std::cout << "Student ID " << studentID << " removed successfully." << endl;
+    std::cout << "Student ID " << studentID << " removed successfully." << std::endl;
 }
 void display() {
     std::fstream output("student.dat", std::ios::in);
