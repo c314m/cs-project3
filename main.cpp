@@ -302,7 +302,7 @@ int main() {
             std::cout << "Bye!!!" << std::endl;
             return 0;
         default:
-            std::cout << error << std::endl;
+            std::cout << "error. Please try again." << std::endl;
             break;
         }
     }
