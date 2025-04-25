@@ -133,8 +133,8 @@ void removeStudent(int studentID) {
      int studentNum = getNumber();
      Student* students = new Student[studentNum];
     
-    std::fstream file("student.dat", std::ios::in);
-      if (!file_is.open()) { 
+    std::fstream output("student.dat", std::ios::in);
+      if (!output_is.open()) { 
           std:cout << "Error opening file." << endl;
           return 1;
       }
@@ -152,7 +152,7 @@ void removeStudent(int studentID) {
               found = true;
           }
       }
-     file.close()
+     output.close()
 
      if (!found){
          std::cout << "Student ID " << studentID << " not found." << endl;
@@ -160,15 +160,15 @@ void removeStudent(int studentID) {
          return 0;
      }
   
-    std::fstream file("student.dat", std::ios::in | std::ios::out);
+    std::fstream output("student.dat", std::ios::in | std::ios::out);
     for (int i = 0; i < actualCount; ++i){
         std::string name = students[i].name;
         size_t pos = name.find_last_of(' ');
-        file << (name.c_str() + pos +1) << ",";
+        output << (name.c_str() + pos +1) << ",";
         name.resize(pos);
-        file << name << ",";
-        file << students[i].studentID << ",";
-        file << students[i].numTestsTaken << ",";
+        output << name << ",";
+        output << students[i].studentID << ",";
+        output << students[i].numTestsTaken << ",";
 
         for (int j = 0; j < students[i].numTestsTaken; ++j){
             file << students[i].testScores[j];
@@ -176,12 +176,12 @@ void removeStudent(int studentID) {
         }
         if (actualCount - 1) file << "\n";
     }
-    file.close();
+    output.close();
     delete[] students;
     std::cout << "Student ID " << studentID << " removed successfully." << endl;
 }
 void display() {
-    std::fstream file("student.dat", std::ios::in);
+    std::fstream output("student.dat", std::ios::in);
 
     int studentNum = getNumber();
     Student* students = new Student[studentNum];
@@ -203,7 +203,7 @@ void display() {
     */
 
     delete[] students;
-    file.close();
+    output.close();
 }
 void search(int studentID) {
     // Declare a pointer of type Student. 
