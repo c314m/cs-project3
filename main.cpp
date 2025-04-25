@@ -3,7 +3,8 @@
 #include <string>
 #include <cerrno>
 #include <sstream>
-using namespace std;
+#include <cstring>
+#include <iomanip>
 
 extern int getNumber();
 
