@@ -239,7 +239,7 @@ void exportResults() {
         //get back to student ID
     }
     for (int i = 0, i < studentNum ++i){
-        minScore = findMinimum();
+        int minScore = findMinimum();
         //Step 8
         std::accumulate(students*[i].testscores, students[i].testScores + students[i].numTestsTaken);
         
