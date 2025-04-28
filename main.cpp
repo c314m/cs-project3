@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <numeric>
 #include <sstream>
 #include <string>
 
@@ -238,27 +239,7 @@ following format:
     std::fstream file("student.dat");
     file.close();
 }
-void exportResults() {
-    std::fstream file("student.dat");
-    int studentNum = getNumber();
-    Student* students = new Student(studentNum);
 
-    std::string line;
-    for (int i = 0; i < studentNum; ++i) {
-        std::getline(file, line);
-        students[i].init(line);
-    }
-
-    for (int i = 0, i < studentNum++ i) {
-        int minScore = findMinimum();
-        // Step 8
-        std::accumulate(students *[i].testscores,
-                                        students[i].testScores + students[i].numTestsTaken);
-    }
-    std::fstream output(student.dat);
-
-    file.close();
-}
 int findMinimum(int arr[], int size) {
     std::fstream file("student.dat");
     if (student > 5) {
@@ -272,6 +253,34 @@ int findMinimum(int arr[], int size) {
                                 }
         }
     }
+
+    file.close();
+}
+
+void exportResults() {
+    std::fstream file("student.dat");
+    int studentNum = getNumber();
+    Student* students = new Student(studentNum);
+
+    std::string line;
+    for (int i = 0; i < studentNum; ++i) {
+        std::getline(file, line);
+        students[i].init(line);
+    }
+
+    for (int i = 0; i < studentNum; ++i) {
+        file << students[i].studentID;
+        file << students[i].name;
+
+        int sum = std::accumulate(
+            students[i].testScores,
+            students[i].testScores + students[i].numTestsTaken,
+            -findMinimum(students[i].testScores, students[i].numTestsTaken)
+        );
+
+        file << "\t" << std::fixed << std::setprecision(1) << sum / (double)students[i].numTestsTaken;
+    }
+    std::fstream output(student.dat);
 
     file.close();
 }
