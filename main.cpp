@@ -217,31 +217,31 @@ void display() {
 }
 void search(int studentID) {
     // Declare a pointer of type Student.
-     ifstream in("student.dat");
-    Student* s = new Student; 
+    std::ifstream in("student.dat");
+    Student *s = new Student;
     bool found = false;
 
-while (getline(in, s->name)) {
-        in >> s->studentID >> s->numTests;
-        s->testScores = new int[s->numTests];
-        for (int i = 0; i < s->numTests; ++i)
+    while (std::getline(in, s->name)) {
+        in >> s->studentID >> s->numTestsTaken;
+        s->testScores = new int[s->numTestsTaken];
+        for (int i = 0; i < s->numTestsTaken; ++i)
             in >> s->testScores[i];
         in.ignore();
-    /* Check if the student ID being read from the file matches the student ID to
-search. If there is a match
+        /* Check if the student ID being read from the file matches the student ID
+to search. If there is a match
 */
-    if (s->studentID == idToSearch) {
+        if (s->studentID == studentID) {
             found = true;
-            cout << setw(30) << left << s->name
-                 << setw(15) << s->studentID;
-            for (int i = 0; i < s->numTests; ++i)
-                cout << setw(5) << s->testScores[i];
-            cout << endl;
+            std::cout << std::setw(30) << std::left << s->name << std::setw(15)
+                                << s->studentID;
+            for (int i = 0; i < s->numTestsTaken; ++i)
+                std::cout << std::setw(5) << s->testScores[i];
+            std::cout << std::endl;
+        }
+        delete[] s->testScores;
     }
-     delete[] s->testScores;
-    }
-     if (!found) {
-        cout << "Student with ID " << idToSearch << " not found." << endl;
+    if (!found) {
+        std::cout << "Student with ID " << studentID << " not found." << std::endl;
     } else {
         delete[] s->testScores;
     }
@@ -249,25 +249,9 @@ search. If there is a match
     delete s;
     in.close();
 }
-    //  -  Set a Boolean flag to true to indicate match has been found.
-    // bool
-    /* - Display the data corresponding data of the matched student using the
-following format:
-             - Allocate 30 spaces for the entire name
-             - Allocate 15 spaces for the student ID
-            - Allocate 5 spaces each for the test score
-            - You don’t need to display the number of tests
-*/
-    // If the Boolean is false i.e. no match is found, display an appropriate
-    // message for the use
-    //           std::cout << " No match has been found." << endl;
-
-    std::fstream file("student.dat");
-    file.close();
-}
 
 int findMinimum(int arr[], int size) {
-    std::fstream file("student.dat");
+    /*std::fstream file("student.dat");
     if (student > 5) {
         // work in progress bruh
         int minScore = 0;
@@ -280,11 +264,11 @@ int findMinimum(int arr[], int size) {
         }
     }
 
-    file.close();
+    file.close();*/
 }
 
 void exportResults() {
-    std::fstream file("student.dat");
+    /*std::fstream file("student.dat");
     int studentNum = getNumber();
     Student* students = new Student(studentNum);
 
@@ -308,7 +292,7 @@ void exportResults() {
     }
     std::fstream output(student.dat);
 
-    file.close();
+    file.close();*/
 }
 
 constexpr char menu[] = R"(
