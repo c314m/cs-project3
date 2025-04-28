@@ -216,12 +216,38 @@ void display() {
 }
 void search(int studentID) {
     // Declare a pointer of type Student.
-    //  using a loop, read each line of the file and store the appropriate data
-    //  into the appropriate members of the structure pointer.
+     ifstream in("student.dat");
+    Student* s = new Student; 
+    bool found = false;
 
+while (getline(in, s->name)) {
+        in >> s->studentID >> s->numTests;
+        s->testScores = new int[s->numTests];
+        for (int i = 0; i < s->numTests; ++i)
+            in >> s->testScores[i];
+        in.ignore();
     /* Check if the student ID being read from the file matches the student ID to
 search. If there is a match
 */
+    if (s->studentID == idToSearch) {
+            found = true;
+            cout << setw(30) << left << s->name
+                 << setw(15) << s->studentID;
+            for (int i = 0; i < s->numTests; ++i)
+                cout << setw(5) << s->testScores[i];
+            cout << endl;
+    }
+     delete[] s->testScores;
+    }
+     if (!found) {
+        cout << "Student with ID " << idToSearch << " not found." << endl;
+    } else {
+        delete[] s->testScores;
+    }
+
+    delete s;
+    in.close();
+}
     //  -  Set a Boolean flag to true to indicate match has been found.
     // bool
     /* - Display the data corresponding data of the matched student using the
