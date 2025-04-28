@@ -137,29 +137,57 @@ void addStudent() {
 }
 
 void removeStudent(int studentID) {
-    int studentNum = getNumber();
-    Student *students = new Student[studentNum];
-
     std::fstream input("student.dat", std::ios::in);
     if (!input) {
-        std::cout << "Error opening file." << std::endl;
+        std::cout << "Error opening file. Please try again." << std::endl;
         return;
     }
 
+    int studentCount = 0;
     std::string line;
-    int actualCount = 0;
-    bool found = false;
-
     while (std::getline(input, line)) {
-        Student s;
-        s.init(line);
-        if (s.studentID != studentID) {
-            students[actualCount++] = s;
-        } else {
-            found = true;
-        }
+        studentCount++;
     }
     input.close();
+
+    if (studentCount == 0) {
+        std::cout << "No students to remove." << std::endl;
+        return;
+    }
+
+    Student* students = new Student[studentCount];
+
+   
+    input.open("student.dat", std::ios::in);
+    if (!input) {
+        std::cout << "Error opening file for reading." << std::endl;
+        delete[] students;
+        return;
+    }
+
+    
+    int i = 0;
+    while (std::getline(input, line)) {
+        students[i].init(line);  
+        ++i;
+    }
+    input.close();
+
+    
+    int newStudentCount = studentCount;
+    bool found = false;
+
+    for (i = 0; i < studentCount; ++i) {
+        if (students[i].studentID == studentID) {
+            found = true;
+            
+            for (int j = i; j < studentCount - 1; ++j) {
+                students[j] = students[j + 1];  
+            }
+            newStudentCount--;  
+            break;  
+        }
+    }
 
     if (!found) {
         std::cout << "Student ID " << studentID << " not found." << std::endl;
@@ -167,28 +195,34 @@ void removeStudent(int studentID) {
         return;
     }
 
-    std::fstream output("student.dat", std::ios::in | std::ios::out);
-    for (int i = 0; i < actualCount; ++i) {
-        std::string name = students[i].name;
-        size_t pos = name.find_last_of(' ');
-        output << (name.c_str() + pos + 1) << ",";
-        name.resize(pos);
-        output << name << ",";
-        output << students[i].studentID << ",";
-        output << students[i].numTestsTaken << ",";
-
-        for (int j = 0; j < students[i].numTestsTaken; ++j) {
-            output << students[i].testScores[j];
-            if (j < students[i].numTestsTaken - 1)
-                output << ",";
-        }
-        if (actualCount - 1)
-            output << "\n";
+    
+    std::fstream output("student.dat", std::ios::out | std::ios::trunc);
+    if (!output) {
+        std::cout << "Error opening file for writing." << std::endl;
+        delete[] students;
+        return;
     }
+
+    
+    for (int i = 0; i < newStudentCount; ++i) {
+        output << students[i].name.substr(students[i].name.find_last_of(' ') + 1) << ","
+               << students[i].name.substr(0, students[i].name.find_last_of(' ')) << ","
+               << students[i].studentID << ","
+               << students[i].numTestsTaken << ",";
+
+        for (int j = 0; j < students[i].testScores.size(); ++j) {
+            output << students[i].testScores[j];
+            if (j < students[i].testScores.size() - 1) output << ",";
+        }
+        if (i < newStudentCount - 1) output << "\n";
+    }
+
     output.close();
+    std::cout << "Student ID " << studentID << " removed successfully." << std::endl;
+
     delete[] students;
-    std::cout << "Student ID " << studentID << " removed successfully."
-                        << std::endl;
+}
+
 }
 void display() {
     std::fstream output("student.dat", std::ios::in);
