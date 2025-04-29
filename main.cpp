@@ -137,101 +137,47 @@ void addStudent() {
 }
 
 void removeStudent(int studentID) {
-    std::fstream file("student.dat", std::ios::in);
-    if (!file) {
-        std::cout << "Error opening file." << std::endl;
-        return;
-    }
+    std::fstream file("student.dat");
+    int studentNum = getNumber();
 
-    int studentCount = 0;
+    std::string newOut;
     std::string line;
-    while (std::getline(input, line)) {
-        studentCount++;
-    }
-    file.close();
+    bool found = false;
+    for (int i = 0; i < studentNum; ++i) {
+        std::getline(file, line);
 
-    if (studentCount == 0) {
-        std::cout << "No students to remove." << std::endl;
-        return;
-    }
+        Student s;
+        s.init(line);
 
-    Student* students = new Student[studentCount];
-
-   
-    std::fstream file("student.dat", std::ios::in);
-    if (!file) {
-        std::cout << "Error opening file for reading." << std::endl;
-        delete[] students;
-        return;
-    }
-
-    
-    int i = 0;
-    while (std::getline(input, line)) {
-        students[i].init(line);  
-        ++i;
-    }
-    file.close();
-
-    
-     bool found = false;
-     int newStudentCount = studentCount;
-    
-
-    for (i = 0; i < studentCount; ++i) {
-        if (students[i].studentID == studentID) {
+        if (s.studentID != studentID) {
+            newOut += line + "\n";
+        } else {
             found = true;
-            
-            for (int j = i; j < studentCount - 1; ++j) {
-                students[j] = students[j + 1];  
-            }
-            newStudentCount--;  
-            break;  
         }
     }
+    file.close();
+
+    newOut.resize(newOut.size() - 1); // remove trailing newline
 
     if (!found) {
-        std::cout << "Student ID " << studentID << " not found." << std::endl;
-        delete[] students;
+        std::cout << "Student does not exist." << std::endl;
         return;
+    } else {
+        std::fstream output("student.dat", std::ios::out);
+        output << newOut;
+        output.close();
     }
-
-    
-    std::fstream output("student.dat", std::ios::out | std::ios::trunc);
-    if (!output) {
-        std::cout << "Error opening file for writing." << std::endl;
-        delete[] students;
-        return;
-    }
-
-/*    
-    for (int i = 0; i < newStudentCount; ++i) {
-        output << students[i].name << ","
-               << students[i].studentID << ","
-               << students[i].numTestsTaken << ",";
-
-        for (int j = 0; j < students[i](); ++j) {
-            output << students[i].testScores[j];
-            if (j < students[i].numTestsTaken - 1) output << ",";
-        }
-        if (i < newStudentCount - 1)
-    }
-*/
-    output.close();
-    std::cout << "Student ID " << studentID << " removed successfully." << std::endl;
-
-    delete[] students;
 }
 
 void display() {
-    std::fstream output("student.dat", std::ios::in);
+    std::fstream file("student.dat");
 
     int studentNum = getNumber();
     Student *students = new Student[studentNum];
 
     std::string line;
     for (int i = 0; i < studentNum; ++i) {
-        std::getline(output, line);
+        std::getline(file, line);
         students[i].init(line);
     }
 
@@ -246,7 +192,7 @@ void display() {
     */
 
     delete[] students;
-    output.close();
+    file.close();
 }
 void search(int studentID) {
     // Declare a pointer of type Student.
