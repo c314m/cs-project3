@@ -1,3 +1,5 @@
+// -std=c++17
+
 #include <cerrno>
 #include <cstring>
 #include <fstream>
@@ -5,7 +7,6 @@
 #include <iostream>
 #include <numeric>
 #include <sstream>
-#include <string>
 
 extern int getNumber();
 
