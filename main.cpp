@@ -195,7 +195,6 @@ void display() {
     file.close();
 }
 void search(int studentID) {
-    // Declare a pointer of type Student.
     std::ifstream file("student.dat");
 
     int studentNum = getNumber();
