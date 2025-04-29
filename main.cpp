@@ -318,7 +318,7 @@ void exportResults() {
         int sum = std::accumulate(
             students[i].testScores,
             students[i].testScores + students[i].numTestsTaken,
-            -findMinimum(students[i].testScores, students[i].numTestsTaken)
+            findMinimum(students[i].testScores, students[i].numTestsTaken)
         );
 
         file << "\t" << std::fixed << std::setprecision(1) << sum / (double)students[i].numTestsTaken;
