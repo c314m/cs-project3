@@ -137,9 +137,9 @@ void addStudent() {
 }
 
 void removeStudent(int studentID) {
-    std::fstream input("student.dat", std::ios::in);
-    if (!input) {
-        std::cout << "Error opening file. Please try again." << std::endl;
+    std::fstream file("student.dat", std::ios::in);
+    if (!file) {
+        std::cout << "Error opening file." << std::endl;
         return;
     }
 
@@ -148,7 +148,7 @@ void removeStudent(int studentID) {
     while (std::getline(input, line)) {
         studentCount++;
     }
-    input.close();
+    file.close();
 
     if (studentCount == 0) {
         std::cout << "No students to remove." << std::endl;
@@ -158,8 +158,8 @@ void removeStudent(int studentID) {
     Student* students = new Student[studentCount];
 
    
-    input.open("student.dat", std::ios::in);
-    if (!input) {
+    std::fstream file("student.dat", std::ios::in);
+    if (!file) {
         std::cout << "Error opening file for reading." << std::endl;
         delete[] students;
         return;
@@ -171,7 +171,7 @@ void removeStudent(int studentID) {
         students[i].init(line);  
         ++i;
     }
-    input.close();
+    file.close();
 
     
     int newStudentCount = studentCount;
@@ -196,8 +196,8 @@ void removeStudent(int studentID) {
     }
 
     
-    std::fstream output("student.dat", std::ios::out | std::ios::trunc);
-    if (!output) {
+    std::fstream file("student.dat", std::ios::out | std::ios::trunc);
+    if (!file) {
         std::cout << "Error opening file for writing." << std::endl;
         delete[] students;
         return;
@@ -205,7 +205,7 @@ void removeStudent(int studentID) {
 
     
     for (int i = 0; i < newStudentCount; ++i) {
-        output << students[i].name.substr(students[i].name.find_last_of(' ') + 1) << ","
+        file << students[i].name.substr(students[i].name.find_last_of(' ') + 1) << ","
                << students[i].name.substr(0, students[i].name.find_last_of(' ')) << ","
                << students[i].studentID << ","
                << students[i].numTestsTaken << ",";
@@ -217,7 +217,7 @@ void removeStudent(int studentID) {
         if (i < newStudentCount - 1) output << "\n";
     }
 
-    output.close();
+    file.close();
     std::cout << "Student ID " << studentID << " removed successfully." << std::endl;
 
     delete[] students;
