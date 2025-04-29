@@ -196,37 +196,27 @@ void display() {
 }
 void search(int studentID) {
     // Declare a pointer of type Student.
-    std::ifstream in("student.dat");
-    Student *s = new Student;
-    bool found = false;
+    std::ifstream file("student.dat");
 
-    while (std::getline(in, s->name)) {
-        in >> s->studentID >> s->numTestsTaken;
-        s->testScores = new int[s->numTestsTaken];
-        for (int i = 0; i < s->numTestsTaken; ++i)
-            in >> s->testScores[i];
-        in.ignore();
-        /* Check if the student ID being read from the file matches the student ID
-to search. If there is a match
-*/
-        if (s->studentID == studentID) {
-            found = true;
-            std::cout << std::setw(30) << std::left << s->name << std::setw(15)
-                                << s->studentID;
-            for (int i = 0; i < s->numTestsTaken; ++i)
-                std::cout << std::setw(5) << s->testScores[i];
-            std::cout << std::endl;
+    int studentNum = getNumber();
+    Student *students = new Student[studentNum];
+
+    int i = 0;
+    for (; i < studentNum; ++i) {
+        std::string line;
+        std::getline(file, line);
+        students[i].init(line);
+
+        if (students[i].studentID == studentID) {
+            std::cout << students[i] << std::endl;
+            break;
         }
-        delete[] s->testScores;
     }
-    if (!found) {
-        std::cout << "Student with ID " << studentID << " not found." << std::endl;
-    } else {
-        delete[] s->testScores;
-    }
+    file.close();
 
-    delete s;
-    in.close();
+    if (i == studentNum) {
+        std::cout << "Student does not exist." << std::endl;
+    }
 }
 
 int findMinimum(int arr[], int size) {
