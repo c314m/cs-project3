@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <string>
+
 using namespace std;
 int getNumber() {
     ifstream fin;

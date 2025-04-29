@@ -7,6 +7,7 @@
 #include <iostream>
 #include <numeric>
 #include <sstream>
+#include <algorithm>
 
 extern int getNumber();
 
