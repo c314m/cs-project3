@@ -174,8 +174,9 @@ void removeStudent(int studentID) {
     file.close();
 
     
-    int newStudentCount = studentCount;
-    bool found = false;
+     bool found = false;
+     int newStudentCount = studentCount;
+    
 
     for (i = 0; i < studentCount; ++i) {
         if (students[i].studentID == studentID) {
@@ -196,28 +197,28 @@ void removeStudent(int studentID) {
     }
 
     
-    std::fstream file("student.dat", std::ios::out | std::ios::trunc);
-    if (!file) {
+    std::fstream output("student.dat", std::ios::out | std::ios::trunc);
+    if (!output) {
         std::cout << "Error opening file for writing." << std::endl;
         delete[] students;
         return;
     }
 
-    
+/*    
     for (int i = 0; i < newStudentCount; ++i) {
-        file << students[i].name.substr(students[i].name.find_last_of(' ') + 1) << ","
-               << students[i].name.substr(0, students[i].name.find_last_of(' ')) << ","
+        output << students[i].name << ","
                << students[i].studentID << ","
                << students[i].numTestsTaken << ",";
 
-        for (int j = 0; j < students[i].testScores.size(); ++j) {
+        for (int j = 0; j < students[i](); ++j) {
             output << students[i].testScores[j];
-            if (j < students[i].testScores.size() - 1) output << ",";
+            if (j < students[i].testScores 
+                output << ",";
         }
-        if (i < newStudentCount - 1) output << "\n";
+        if (i < newStudentCount - 1)
     }
-
-    file.close();
+*/
+    output.close();
     std::cout << "Student ID " << studentID << " removed successfully." << std::endl;
 
     delete[] students;
