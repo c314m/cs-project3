@@ -212,7 +212,7 @@ void removeStudent(int studentID) {
 
         for (int j = 0; j < students[i].testScores.size(); ++j) {
             output << students[i].testScores[j];
-            if (j < students[i].testScores.size() - 1) output << ",";
+            if (j < students[i].numTestsTaken - 1) output << ",";
         }
         if (i < newStudentCount - 1) output << "\n";
     }
@@ -223,7 +223,6 @@ void removeStudent(int studentID) {
     delete[] students;
 }
 
-}
 void display() {
     std::fstream output("student.dat", std::ios::in);
 
@@ -285,47 +284,35 @@ to search. If there is a match
 }
 
 int findMinimum(int arr[], int size) {
-    /*std::fstream file("student.dat");
-    if (student > 5) {
-        int minScore = 0;
-    } else if (student == 5) {
-        int minScr = arr[0];
-        for (int i = 0; i < size; ++i) {
-                        if (arr[i] < minScore {
-                mineScore = arr[i];
-                                }
-        }
-    }
-
-    file.close();*/
+    return *std::min_element(arr, arr + size);
 }
 
 void exportResults() {
-    /*std::fstream file("student.dat");
+    std::fstream file("student.dat");
     int studentNum = getNumber();
-    Student* students = new Student(studentNum);
+    std::cout << studentNum << std::endl;
+    Student* students = new Student[studentNum];
 
     std::string line;
     for (int i = 0; i < studentNum; ++i) {
         std::getline(file, line);
         students[i].init(line);
     }
+    file.close();
 
+    std::fstream output("average.dat", std::ios::out);
     for (int i = 0; i < studentNum; ++i) {
-        file << students[i].studentID;
-        file << students[i].name;
+        output << students[i].studentID;
 
-        int sum = std::accumulate(
+        int sum = 5; std::accumulate(
             students[i].testScores,
-            students[i].testScores + students[i].numTestsTaken,
-            findMinimum(students[i].testScores, students[i].numTestsTaken)
+            students[i].testScores + students[i].numTestsTaken - 1,
+            -findMinimum(students[i].testScores, students[i].numTestsTaken)
         );
 
-        file << "\t" << std::fixed << std::setprecision(1) << sum / (double)students[i].numTestsTaken;
+        output << "\t" << std::fixed << std::setprecision(1) << sum / (double)students[i].numTestsTaken << std::endl;
     }
-    std::fstream output(student.dat);
-
-    file.close();*/
+    output.close();
 }
 
 constexpr char menu[] = R"(
