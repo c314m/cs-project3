@@ -138,6 +138,11 @@ void addStudent() {
 
 void removeStudent(int studentID) {
     std::fstream file("student.dat");
+    if (!file) {
+        std::cout << "Error opening file." << std::endl;
+        return;
+    }
+
     int studentNum = getNumber();
 
     std::string newOut;
@@ -164,6 +169,10 @@ void removeStudent(int studentID) {
         return;
     } else {
         std::fstream output("student.dat", std::ios::out);
+        if (!output) {
+            std::cout << "Error opening file." << std::endl;
+            return;
+        }
         output << newOut;
         output.close();
     }
@@ -171,6 +180,10 @@ void removeStudent(int studentID) {
 
 void display() {
     std::fstream file("student.dat");
+    if (!file) {
+        std::cout << "Error opening file." << std::endl;
+        return;
+    }
 
     int studentNum = getNumber();
     Student *students = new Student[studentNum];
@@ -196,6 +209,10 @@ void display() {
 }
 void search(int studentID) {
     std::ifstream file("student.dat");
+    if (!file) {
+        std::cout << "Error opening file." << std::endl;
+        return;
+    }
 
     int studentNum = getNumber();
     Student *students = new Student[studentNum];
@@ -224,6 +241,11 @@ int findMinimum(int arr[], int size) {
 
 void exportResults() {
     std::fstream file("student.dat");
+    if (!file) {
+        std::cout << "Error opening file." << std::endl;
+        return;
+    }
+
     int studentNum = getNumber();
     std::cout << studentNum << std::endl;
     Student* students = new Student[studentNum];
@@ -236,6 +258,11 @@ void exportResults() {
     file.close();
 
     std::fstream output("average.dat", std::ios::out);
+    if (!output) {
+        std::cout << "Error opening file." << std::endl;
+        return;
+    }
+
     for (int i = 0; i < studentNum; ++i) {
         output << students[i].studentID;
 
