@@ -287,7 +287,6 @@ to search. If there is a match
 int findMinimum(int arr[], int size) {
     /*std::fstream file("student.dat");
     if (student > 5) {
-        // work in progress bruh
         int minScore = 0;
     } else if (student == 5) {
         int minScr = arr[0];
